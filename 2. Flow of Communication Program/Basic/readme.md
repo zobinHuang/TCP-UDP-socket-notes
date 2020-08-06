@@ -2,43 +2,9 @@
 For this section, you need to know followings:
 ## 1. Connection-oriented & Connectionless-oriented
 * **Sequence of Connection-oriented C/S:**
-    ```sequence
-        #Connection-oriented
-        Note over Server, Client: Create Socket (sock_1)
-        Note over Server, Client: Bind Socket
-        Note over Server: Listen
-        Note over Client: Set up IPaddr & port numer of Server
-        Client->Server: Connect
-        Note over Server: Accept
-        Note over Server: Generate a new socket (sock_2)
-        Server-->Client: Notice
-        Note right of Client: Successfully connected
-        Note over Client: Send
-        Client->Server: STREAM
-        Note over Server: Recv
-        Note over Server: Send  
-        Server->Client: STREAM
-        Note over Client: Recv
-        Note over Client: Close Socket
-        Note over Server: Close Socket (sock_2)
-    ```
+    
 * **Sequence of Connectionless-oriented C/S:**
-    ```sequence
-        #Connectionless-oriented
-        Note over Server, Client: Create Socket
-        Note over Server, Client: Bind Socket
-        Note over Client: Set up IPaddr & port numer of Server
-        Note over Client: Sendto
-        Client->Server: DGRAM
-        Note over Server: Recvfrom
-        Note over Server: Sendto
-        Server->Client: DGRAM
-        Note over Client: Recvfrom
-        Note over Client: Close Socket
-        Note over Server: ...
-        Note over Server: Close Socket
-    ```
-
+    
 ## 2. struct **sockaddr_in** and struct **sockaddr**:
 Firstly, sockaddr_ in & sockaddr are structures that contain informations of socket address. \
 And the drawback of struct sockaddr is that it mixes the information of ip address and port together, as shown below:

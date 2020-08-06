@@ -2,7 +2,7 @@
 For this section, you need to know followings:
 ## 1. Connection-oriented & Connectionless-oriented
 * **Sequence of Connection-oriented C/S:**
-    
+    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.%20diagram/Sequence%20of%20Connection-oriented.png)
 * **Sequence of Connectionless-oriented C/S:**
     
 ## 2. struct **sockaddr_in** and struct **sockaddr**:

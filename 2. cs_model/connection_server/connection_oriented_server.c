@@ -70,7 +70,7 @@ int main()
             printf_error();
             goto exit;
         }
-        fprintf(stdout, "Acccept connection:%d\n", newsock);
+        fprintf(stdout, "Acccept connection: Remote port= %d, ip addr = %s\n", ntohs(remote_addr.sin_port), inet_ntoa(remote_addr.sin_addr));
 
         //recv
         retval = recv(newsock, recvbuf, sizeof(recvbuf), 0);

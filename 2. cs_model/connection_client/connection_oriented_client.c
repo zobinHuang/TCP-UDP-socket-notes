@@ -109,7 +109,7 @@ int main()
 void printf_error()
 {
     #ifdef _WIN32
-        retval = WSAGetLastError();
+        int retval = WSAGetLastError();
         fprintf(stderr, "socket error: %d\n", retval);
     #elif __linux__
         fprintf(stderr, "socket error: %s(errno: %d)\n",strerror(errno),errno);

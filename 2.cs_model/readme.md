@@ -2,9 +2,9 @@
 For this section, you need to know followings:
 ## 1. Connection-oriented & Connectionless-oriented
 * **Sequence of Connection-oriented C/S:**
-    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/Sequence%20of%20Connection-oriented.png)
+    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connection-oriented.png)
 * **Sequence of Connectionless-oriented C/S:**
-    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/Sequence%20of%20Connectionless-oriented.png)
+    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connectionless-oriented.png)
 ## 2. struct **sockaddr_in** and struct **sockaddr**:
 Firstly, sockaddr_ in & sockaddr are structures that contain informations of socket address. \
 And the drawback of struct sockaddr is that it mixes the information of ip address and port together, as shown below:
@@ -186,9 +186,9 @@ The **network byte order** is the data representation format specified in TCP/IP
 Now let's see some conversion functions which help us to configure the ip address and port number of socket. You need to know the conversion process, see below:
 
   * IP address:
-    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/ipaddr%20conversion%20process.png)
+    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/ipaddr%20conversion%20process.png)
   * Port number:
-    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/port%20conversion%20process.png)
+    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/port%20conversion%20process.png)
 \
 Note that to use these functions:
 Under windows, they're already inside the header file: winsock.h

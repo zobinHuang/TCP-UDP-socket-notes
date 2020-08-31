@@ -35,7 +35,7 @@ Under Linux, you need to:
 int socket( int domain, int type, int protocol);
 ```
 * parameters:
-    * **domain:**        setup network communication domain, commonly use *AF_INET* (for TCP/IP-ipv4), others contain *AF_UNIX*(for local communication), *AF_INET6*(for TCP/IP–IPv6)
+    * **domain:**        setup network communication domain, commonly use *AF_INET* (for TCP/IP-ipv4), others contain *AF_UNIX* (for local communication), *AF_INET6* (for TCP/IP–IPv6)
     * **type:**          socket type, such as SOCK_STREAM (for TCP), SOCK_DGRAM (for UDP), SOCK_RAW, etc. 
     * **protocol:**      assign the protocol that the socket used, such as IPPROTO_TCP, IPPROTO_UDP, IPPROTO_STCP, etc. If don't want to assign, use 0
 * return value:

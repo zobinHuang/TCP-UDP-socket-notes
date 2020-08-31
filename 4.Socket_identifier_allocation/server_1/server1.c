@@ -1,4 +1,4 @@
-//server.c: connect to another client, after successfully connected send and receive message.
+//server1.c: accept a client, after successfully connected send and receive message with this client.
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -15,7 +15,7 @@
 #endif
 
 #define SERVER_IP "127.0.0.1"
-#define SERVER_TCP_PORT 0X1234
+#define SERVER_TCP_PORT 0x1234
 
 void printf_error();
 
@@ -24,7 +24,7 @@ int main()
     int retval, len;
     int s, newsock;
     int connum = 0;
-    char recvbuf[128];
+    char sendbuf[128], recvbuf[128];
     struct sockaddr_in server_addr, remote_addr;
 
     #ifdef _WIN32
@@ -62,28 +62,38 @@ int main()
         goto exit;
     }
 
-    while(1)
-    {
-	    len = sizeof(remote_addr);
-	    newsock = accept(s, (struct sockaddr*)&remote_addr, &len);
-	    fprintf(stdout, "\nRemote port= %d, ip addr = %s\n", ntohs(remote_addr.sin_port), inet_ntoa(remote_addr.sin_addr));
+    //accept
+    len = sizeof(remote_addr);
+    newsock = accept(s, (struct sockaddr*)&remote_addr, &len);
+    fprintf(stdout, "\nRemote port= %d, ip addr = %s\n", ntohs(remote_addr.sin_port), inet_ntoa(remote_addr.sin_addr));
 
-        memset(recvbuf, '\0', sizeof(recvbuf));
-        
-	    retval = recv(newsock, recvbuf, sizeof(recvbuf), 0);
-        if(retval < 0){
-            printf_error();
-            goto exit;
-        }
+    //recv
+    memset(recvbuf, '\0', sizeof(recvbuf));
+    retval = recv(newsock, recvbuf, sizeof(recvbuf), 0);
+    if(retval < 0){
+        printf_error();
+        goto exit;
+    }
+    fprintf(stdout, "Received: %s\n", recvbuf);
 
-	    fprintf(stdout, "Received: %s\n", recvbuf);
+    //send
+    memset(sendbuf, '\0', sizeof(sendbuf));
+    strcpy(sendbuf, "this is server 1");
+    retval = send(newsock, sendbuf, strlen(sendbuf) + 1, 0);
+    if(retval < 0){
+        printf_error();
+        goto exit;
+    }
+    fprintf(stdout, "Successfully send data: %s, data length: %d\n", sendbuf, retval);
 
-        #ifdef _WIN32
-	        closesocket(newsock);
-        #elif __linux__
-            close(newsock);
-        #endif
-	}
+    //recv again
+    memset(recvbuf, '\0', sizeof(recvbuf));
+    retval = recv(newsock, recvbuf, sizeof(recvbuf), 0);
+    if(retval < 0){
+        printf_error();
+        goto exit;
+    }
+    fprintf(stdout, "Received: %s\n", recvbuf);
 
     exit:{
         #ifdef _WIN32

@@ -101,7 +101,7 @@ int connect(int sockfd, struct sockaddr *addr, int addrlen);
     * For datagram sockets, the connect() call specifies the peer for a socket (i.e. ipaddr & port). 
 * return value:
     * If connect successfully, it will return 0
-    * If it failed, it will return SOCKET_ERROR.\
+    * If it failed, it will returns -1.\
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
     

@@ -60,7 +60,7 @@ int bind(int sockfd, const struct sockaddr *addr,socklen_t *addrlen);
     * If it failed, it will return -1.\
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
-### 3.2 Connection-oriented used:
+### 3.2 Connection-oriented commonly used:
 #### 3.2.1 Server Side:
 ```C
 int listen( int sockfd, int backlog);
@@ -95,6 +95,10 @@ int connect(int sockfd, struct sockaddr *addr, int addrlen);
     * **sockfd:** socket index
     * ***addr:**  a pointer to struct sockaddr which include the information of remote server 
     * **addrlen:** length of **addr** 
+* note:
+    *Actually, connect() can also be used in connectionless oriented communication. See below:*\
+    * For stream sockets, the connect() call attempts to establish a connection between two sockets. The connect() call performs two tasks when called for a stream socket. First, it completes the binding necessary for a stream socket (in case it has not been previously bound using the bind() call). Second, it attempts to make a connection to another socket.
+    * For datagram sockets, the connect() call specifies the peer for a socket (i.e. ipaddr & port). 
 * return value:
     * If connect successfully, it will return 0
     * If it failed, it will return SOCKET_ERROR.\
@@ -139,7 +143,7 @@ int recv( SOCKET sockfd, char *buf, int len, int flags);
     * If the network was disconnected while waiting for the kernel to receiving data, 
       * under Windows: it will return *SOCKET_ERROR*.
       * under Linux: The process will receives a *SIGPIPE* signal, and the default processing of this signal is process termination.
-### 3.3 Connectionless-oriented used:
+### 3.3 Connectionless-oriented commonly used:
 #### 3.3.1 Server & Client Common:
 ```C
 int sendto (int sockfd, const void *buf, int len, unsigned int flags, const struct sockaddr *dest_addr, int addrlen);

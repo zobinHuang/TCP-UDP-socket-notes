@@ -55,7 +55,12 @@ int main()
         goto exit;
     }
 
-    listen(s,0);
+    //set as listen mode
+    retval = listen(s,0);
+    if(retval < 0){
+        printf_error();
+        goto exit;
+    }
 
     while(1)
     {

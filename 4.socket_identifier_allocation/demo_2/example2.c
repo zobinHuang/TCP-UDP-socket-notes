@@ -17,7 +17,7 @@
 #define LOCAL_IP "127.0.0.1"
 #define LOCAL_PORT 0x1011
 #define REMOTE_IP "127.0.0.1"
-#define REMOTE_PORT 0x4321
+#define REMOTE_PORT 0x1234
 
 void printf_error();
 
@@ -99,8 +99,6 @@ int main()
         goto exit;
     }
     fprintf(stdout, "Successfully recv data: %s, data length: %d\n", recvbuf, retval);
-
-    while(1){}
 
     exit:{
         #ifdef _WIN32

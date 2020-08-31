@@ -86,15 +86,6 @@ int main()
     }
     fprintf(stdout, "Successfully send data: %s, data length: %d\n", sendbuf, retval);
 
-    //recv again
-    memset(recvbuf, '\0', sizeof(recvbuf));
-    retval = recv(newsock, recvbuf, sizeof(recvbuf), 0);
-    if(retval < 0){
-        printf_error();
-        goto exit;
-    }
-    fprintf(stdout, "Received: %s\n", recvbuf);
-
     exit:{
         #ifdef _WIN32
             if(s >= 0){

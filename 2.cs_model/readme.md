@@ -1,5 +1,8 @@
 # Demonstrating Programs of Communication Flow
 For this section, you need to know followings:
+* How connection-oriented / connectionless-oriented C/S model work?
+* How to define the address of an socket?
+* How most of socket-related interface functions work?
 ## 1. Connection-oriented & Connectionless-oriented
 * **Sequence of Connection-oriented C/S:**
     ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connection-oriented.png)

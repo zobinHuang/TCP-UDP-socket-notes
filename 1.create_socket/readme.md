@@ -91,9 +91,9 @@ int socket(int domain, int type, int protocol);
         Socket error 11004 – Valid name, no data record of requested type
     
 2. Linux Error Number:
-   ```C
+   ```c++
         #define EPERM 1             /* Operation not permitted */ 
-    　　#define ENOENT 2            /* No such file or directory */ 
+        #define ENOENT 2            /* No such file or directory */ 
     　　#define ESRCH 3             /* No such process */
     　　#define EINTR 4             /* Interrupted system call */
     　　#define EIO 5               /* I/O error */

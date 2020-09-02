@@ -34,12 +34,12 @@ int main()
         WSAStartup(0x101, &wsa);
     #endif
 
-    //create socket
-    s = socket(AF_INET, SOCK_STREAM, 0);
-    if (s < 0) {
-        printf_error();
-        goto exit;
-    }
+    //1. Function: socket(), change the parameter and observe the return value and error code.
+    // s = socket(AF_INET, SOCK_DGRAM, 0);
+    // if (s < 0) {
+    //     printf_error();
+    //     goto exit;
+    // }
 
     //bind
     client_addr.sin_family = AF_INET;

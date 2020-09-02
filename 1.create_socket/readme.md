@@ -92,6 +92,7 @@ int socket(int domain, int type, int protocol);
     
 2. Linux Error Number:
    ```c++
+        //From /usr/include/asm-generic/errno.h and errno-base.h
         #define EPERM 1             /* Operation not permitted */ 
         #define ENOENT 2            /* No such file or directory */ 
         #define ESRCH 3             /* No such process */

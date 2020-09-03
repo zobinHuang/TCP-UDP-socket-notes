@@ -1,6 +1,12 @@
-# How to create a socket under Windows/Linux?
+# **Hello Socket!**
 For this section, you need to know followings:
-## 1. Preparation
+
+## 1. About **Socket** 
+* Actually, socket is a data structure defined by opreating system which contains lots of necessary information for communication. Application progress can use socket to exploit the transmitting service offered by TCP/UDP entity.
+* 
+
+## 2. Relationship among **socket**, **socket address**, **port** and **ip address**
+## 3. How to create a socket? 
 ### (1) under Windows:
 Under Windows, you need to:
 * include header file:

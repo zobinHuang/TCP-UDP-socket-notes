@@ -62,11 +62,11 @@ int main()
     }
 
     //listen
-    retval = listen(s, 0);
-    if(retval < 0){
-        printf_error();
-        goto exit;
-    }
+    // retval = listen(s, 0);
+    // if(retval < 0){
+    //     printf_error();
+    //     goto exit;
+    // }
 
     while(1){
         //accept
@@ -77,9 +77,9 @@ int main()
             goto exit;
         }
         fprintf(stdout, "Acccept connection: Remote port= %d, ip addr = %s\n", ntohs(remote_addr.sin_port), inet_ntoa(remote_addr.sin_addr));
-
+        
         //recv
-        retval = recv(newsock, recvbuf, sizeof(recvbuf), 0);
+        retval = recv(s, recvbuf, sizeof(recvbuf), 0);
         if(retval < 0){
             printf_error();
             goto exit;

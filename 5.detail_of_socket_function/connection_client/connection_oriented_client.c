@@ -17,7 +17,7 @@
 #define SERVER_IP "127.0.0.1"
 #define SERVER_TCP_PORT 0x1234
 #define CLIENT_IP "127.0.0.1"
-#define CLIENT_TCP_PORT 0X1235
+#define CLIENT_TCP_PORT 0x1235
 
 void printf_error();
 
@@ -35,11 +35,11 @@ int main()
     #endif
 
     //1. Function: socket(), change the parameter and observe the return value and error code.
-    // s = socket(AF_INET, SOCK_DGRAM, 0);
-    // if (s < 0) {
-    //     printf_error();
-    //     goto exit;
-    // }
+    s = socket(AF_INET, SOCK_STREAM, 0);
+    if (s < 0) {
+        printf_error();
+        goto exit;
+    }
 
     //bind
     client_addr.sin_family = AF_INET;

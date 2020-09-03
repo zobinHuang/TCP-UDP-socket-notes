@@ -44,7 +44,7 @@ int socket(int domain, int type, int protocol);
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno \
 
-* Appendix:
+## Appendix:
 1. Windows Error Code: \
         Socket error 0 – Directly send error \
         Socket error 10004 – Interrupted function \

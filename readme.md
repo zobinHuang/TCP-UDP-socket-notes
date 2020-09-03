@@ -6,11 +6,11 @@ This repo contains codes for network communication programs which were wrote dur
 ## **Structure**
 This repo can be divided into two parts and they're arranged as below:
 * **PART 1: Basic Notes of Socket**
-    * **Section 1: Socket** 
+    * [**Section 1: Socket**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/1.create_socket)
       * What is a **socket**? 
       * What is the relationship among **socket**, **socket address**, **port** and **ip address**?
       * How to create a socket under Windows and Linux?
-    * **Section 2: C/S Model** 
+    * [**Section 2: C/S Model**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/2.cs_model) 
       * What is **Client/Server Model** and why? 
       * What **Connection-oriented** and **Connectionless-oriented** refer to? 
       * What is the difference between **Stream Service** and **Datagram Service**?

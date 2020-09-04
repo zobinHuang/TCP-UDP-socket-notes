@@ -9,7 +9,8 @@ For this section, you need to know followings:
 
 ## 2. Relationship among **socket**, **socket address**, **port** and **ip address**
 It's very significant to understand the relation among these four concepts and it's always very confusing for beginners. Let's use a figure to explain this!\
-![Figure-1](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec1/1-1.png)
+![](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec1/1-1.png)
+
 ## 3. How to create a socket? 
 ### (1) under Windows:
 Under Windows, you need to:

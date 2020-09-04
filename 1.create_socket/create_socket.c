@@ -30,7 +30,7 @@ int main()
         goto exit;
     }
     else {
-        fprintf(stdout, "create socket successfully \n");
+        fprintf(stdout, "create socket successfully! Socket id: %d\n", s);
     }
 
     exit:{

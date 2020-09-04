@@ -68,4 +68,4 @@ int socket(int domain, int type, int protocol);
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno \
 
-Now please turn to the code in ***create_socket.c*** under this folder to check the full process!
+Don't worry if you feel unfamiliar with all these three parameters since we haven't discuss about them until next section. Now please turn to the code in ***create_socket.c*** under this folder to check the full process of creating socket!

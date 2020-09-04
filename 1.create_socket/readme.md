@@ -15,7 +15,8 @@ Suppose we have three processes running on the host "Zobin" which equipped with 
 * SOCKET_2 bind to (**port:** 10087, **IP address:** 192.168.1.3, **protocol:** TCP) 
 * SOCKET_3 bind to (**port:** 10087, **IP address:** 192.168.1.3, **protocol:** UDP)
 
-So you can see, a triple **(Layer-4 port, IP address, Communication Protocol)** can uniquely determine a communication endpoint on a host. 
+So you can see, a triple **(Layer-4 port, IP address, Communication Protocol)** can uniquely determine a communication endpoint on a host. Such a triple needs to be assigned to a socket and it will specify the endpoint on which this socket work, and we call such a triple **socket address**.
+
 ## 3. How to create a socket? 
 ### (1) under Windows:
 Under Windows, you need to:

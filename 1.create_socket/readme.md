@@ -1,11 +1,15 @@
-# **Hello Socket!**
+# **Section 1: Hello Socket!**
 For this section, you need to know followings:
 
 ## 1. About **Socket** 
-* Actually, socket is a data structure defined by opreating system which contains lots of necessary information for communication. Application progress can use socket to exploit the transmitting service offered by TCP/UDP entity.
-* 
+* Actually, socket is a data structure that mainntained by opreating system which contains lots of necessary information for communication. Application progress can use socket structure to exploit the transmitting service offered by TCP/UDP entity.
+* When the process needs a socket structure for communication, it will call the function *socket()*. Once the socket structure is successfully created, *socket()* will return the id of this newly created socket structure, and subsequent operations on the socket structure are performed via this socket id. So you will see that each socket structre has a socket id, and note that a socket structure can only be used by one process and every process will hold a index table that matches the socket ids to socket structures that owned by it. 
+* It's important to know that the socket index table of a process is independent to others, which means that two process might use the same socket id, but actually they refer to different socket structure.
+* In all, if application wants to use TCP/UDP entity to implement network communication, it needs to apply for a (layer 4) socket structure. And we will call socket structure as **socket** for short from now on.
 
 ## 2. Relationship among **socket**, **socket address**, **port** and **ip address**
+It's very significant to understand the relation among these four concepts and it's always very confusing for beginners. Let's use a figure to explain this!
+
 ## 3. How to create a socket? 
 ### (1) under Windows:
 Under Windows, you need to:

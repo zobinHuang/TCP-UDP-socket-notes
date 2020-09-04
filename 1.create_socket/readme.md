@@ -9,8 +9,13 @@ For this section, you need to know followings:
 
 ## 2. Relationship among **socket**, **socket address**, **port** and **ip address**
 It's very significant to understand the relation among these four concepts and it's always very confusing for beginners. Let's use a figure to explain this!\
-![](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec1/1-1.png)
+![Figure-1](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec1/1-1.png) \
+Suppose we have three processes running on the host "Zobin" which equipped with two NIC, and two IP addresses accordingly ("192.168.1.2" and "192.168.1.3"). As you can see in the figure, PROCESS_1 uses SOCKET_1, PROCESS_2 uses SOCKET_2 and PROCESS_3 uses SOCKET_3, and all three processes use "3" as socket id —— As mentioned above, socket id is independent across processes. And as the connection relationship shown in the figure: 
+* SOCKET_1 bind to (**port:** 10086, **IP address:** 192.168.1.2, **protocol:** TCP)  
+* SOCKET_2 bind to (**port:** 10087, **IP address:** 192.168.1.3, **protocol:** TCP) 
+* SOCKET_3 bind to (**port:** 10087, **IP address:** 192.168.1.3, **protocol:** UDP)
 
+So you can see, a triple **(Layer-4 port, IP address, Communication Protocol)** can uniquely determine a communication endpoint on a host. 
 ## 3. How to create a socket? 
 ### (1) under Windows:
 Under Windows, you need to:

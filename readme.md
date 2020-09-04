@@ -1,10 +1,10 @@
 # **TCP&UDP Socket Programming Notes**
 
 ## **Preface**
-This repo contains codes for network communication programs which were wrote during the undergraduate course ***Design of Network Software*** taught by Prof. Duan in 2020 spring semester (online) in UESTC. You can use these codes as a basic tutorial for knowing how to use TCP/UDP sockets and design the framework of different types of network communication software such as online chatting, file transferring, etc. The only type of socket we discussed and showed in this repo is TCP/UDP socket (Layer 4). To better understand all these codes, it will be perfect that you had learn basic knowledge of TCP/IP stack before you check them. All the codes were wrote in C and can be compiled and run on Windows & Linux environment.
+This repo contains codes for network communication programs which were wrote during the undergraduate course ***Design of Network Software*** taught by Prof. Duan in 2020 spring semester (online) in UESTC. You can use these codes as a basic tutorial for knowing how to use TCP/UDP sockets and design the framework of different types of network communication software such as online chatting, file transferring, etc. The only type of socket we discussed and showed in this repo is TCP/UDP socket (Layer 4). To better understand all these codes, it will be perfect that you had learn basic knowledge of TCP/IP stack before you check them. All the codes were wrote in C and are able to be compiled and run on both Windows & Linux environment.
 
 ## **Structure**
-This repo can be divided into two parts and they're arranged as below:
+This repo can be divided into three parts and they're arranged as below:
 * **PART 1: Basic Notes of Socket**
     * [**Section 1: Socket**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/1.create_socket)
       * What is a **socket**? 

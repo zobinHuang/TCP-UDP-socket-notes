@@ -1,12 +1,21 @@
-# Demonstrating Programs of Communication Flow
+# Demonstrating Programs of Client/Server Model
 For this section, you need to know followings:
 
 ## 1. What is Client/Server Model and Why?
-    
+**Client/Server** model is the most common used model in the design of network software. In such a model, the **Client** is the active one and **Server** is the passive one. **Client** process will send requests to **Server** process which will then response corresponding data back to the **Client**. \
+You might wonder why such a design makes sense, can both sides of communication are active (i.e. two client processes communicate with each other directly)? Several reasons are listed below.
+1. Let's consider the TCP protocol which requires two sides of TCP entities to establish connection (aka three-way handshaking) before they start to transfer data to guarantee reliability. In common C/S model, **Client** will actively send *SYN* to **Server** to start three-way handshaking and **Server** will passively accept the connection request and start to serve **Client**. **Client** won't response any *SYN* it received and **Server** will never send *SYN* to others. However, TCP standard also described such a rare situation actually: In a no client or server situation, two application processes need to simultaneously send *SYN* to start three-way handshaking so that they are able to establish connection eventually, as the figure below illustrates (Souce: **TCP/IP Protocol Suite (Fourth Edition)** by  *Behrouz A. Forouzan*, Page 454). \
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-1.png) \
+This model unlikely to make any sense since usually there is only one active side in network communication. It's very difficult and wierd to require both sides to actively start establishing connection to another side.
+
+
+
+## 2. What Connection-oriented and Connectionless-oriented refer to?
+
 ## 1. Connection-oriented & Connectionless-oriented
-* **Sequence of Connection-oriented C/S:**
+* **Sequence of Connection-oriented C/S:** \
     ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connection-oriented.png)
-* **Sequence of Connectionless-oriented C/S:**
+* **Sequence of Connectionless-oriented C/S:** \
     ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connectionless-oriented.png)
 ## 2. struct **sockaddr_in** and struct **sockaddr**:
 Firstly, sockaddr_ in & sockaddr are structures that contain informations of socket address. \

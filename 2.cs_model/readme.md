@@ -9,73 +9,20 @@ You might wonder why such a design makes sense, can both sides of communication 
 In common C/S model, **Client** will actively send *SYN* to **Server** to start three-way handshaking and **Server** will passively accept the connection request and start to serve **Client**. **Client** won't response any *SYN* it received and **Server** will never send *SYN* to others. However, TCP standard also described such a rare situation actually: In a no-server situation, two application processes need to simultaneously send *SYN* to start three-way handshaking so that they are able to establish connection eventually, as the figure below illustrates (Souce: **TCP/IP Protocol Suite (Fourth Edition)** by  *Behrouz A. Forouzan*, Page 454). \
 ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-1.png) \
 This model unlikely to make any sense since **usually there is only one active side in network communication**. It's very difficult and wierd to require both sides to actively start establishing connection to another side at the same time. (Consider the phone call, isn't it rediculous that both sides of users need to dial number at the same time?)
-2. If a network software adopts no-server design, then it will require every process to record other processes' communication endpoint information. That will be enormous data occupied a big part of memory space. Not a good idea.
+2. If a network software adopts no-server design, then it will require every process to record information of other processes' communication endpoint. That will be enormous data occupied a big part of memory space. Not a good idea.
 
 In all, it would be a reasonable design to have a central scheduler (**Server**) to coordinate **Client** processes distributed on different hosts. When the **Client** process needs service, it communicates with the **Server** to obtain the corresponding data (may need to establish a connection in advance). The **Server** is only responsible for responding to the needs of the client, and will not actively interact with the **Client**.
 
+## 2. What do Connection-oriented and Connectionless-oriented refer to?
+### (1) Connection-oriented
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connection-oriented.png)
 
-## 2. What Connection-oriented and Connectionless-oriented refer to?
+### (2) Connectionless-oriented
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connectionless-oriented.png)
 
-## 1. Connection-oriented & Connectionless-oriented
-* **Sequence of Connection-oriented C/S:** \
-    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connection-oriented.png)
-* **Sequence of Connectionless-oriented C/S:** \
-    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connectionless-oriented.png)
-## 2. struct **sockaddr_in** and struct **sockaddr**:
-Firstly, sockaddr_ in & sockaddr are structures that contain informations of socket address. \
-And the drawback of struct sockaddr is that it mixes the information of ip address and port together, as shown below:
-```C
-    struct sockaddr {  
-        sa_family_t      sin_family;  //network communication domain, commonly use AF_INET (ipv4)
-        char             sa_data[14]; //14 bytes, containing the destination address and port information of the socket               
-    };
-```
-struct sockaddr_in fixes this problem, usually programmer use sockaddr_in to config the parameters, then cast to struct sockaddr as the parameter of some socket functions such as bind(), connect(), recvfrom(), sendto(), etc. But there exist some differences of struct sockaddr_in under different operating system, see below.
-### struct sockaddr_in:
-```C
-    //under Windows & Linux:
-    typedef unsigned short u_short;
-    struct sockaddr_in {
-        short   sin_family;         //network communication domain, commonly use AF_INET (ipv4)
-        u_short sin_port;           //16 bits, port number of TCP/UDP
-        struct  in_addr sin_addr;   //Exists differences under Windows/Linux, check below
-        char    sin_zero[8];        //not used  
-    };
-```
-### struct in_addr:
-```C
-    //under Windows:
-    typedef struct in_addr
-    {
-        union{
-            struct { unsigned char s_b1,s_b2,s_b3,s_b4; } S_un_b;
-            struct { unsigned short s_w1,s_w2; } S_un_w;
-            unsigned long S_addr;
-            }S_un;
-        }in_addr;
-    
-    //under Linux:
-    typedef uint32_t in_addr_t;
-    struct in_addr
-    {
-        In_addr_t        s_addr;  //32 bits, ipv4 address.
-    }
-```
-
-## 3. Related functions:
+## 3. Basic Socket-related Interface Functions
 ### 3.1 Commonly used:
-```C
-int bind(int sockfd, const struct sockaddr *addr,socklen_t *addrlen);
-```
-* parameters:
-    * **sockfd:** socket index
-    * ***addr:** The socket address to bind. Usually programmers use struct sockaddr_in to config the parameters, then cast to struct sockaddr, and pass the pointer of sockaddr as this parameter (a.k.a (struct sockaddr\*)&sockaddr_in).
-    * **addrlen:** sizeof **addr**
-* return value:
-    * If bind successfully, it will return 0.
-    * If it failed, it will return -1.\
-    Under Windows, you can use WSAGetLastError() to get the error code. \
-    Under Linux, you can get the error code via errno.
+
 ### 3.2 Connection-oriented commonly used:
 #### 3.2.1 Server Side:
 ```C

@@ -32,7 +32,7 @@ int main()
     else {
         fprintf(stdout, "create socket successfully! Socket id: %d\n", s);
     }
-
+    
     exit:{
         #ifdef _WIN32
             if(s > 0){

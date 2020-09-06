@@ -16,7 +16,7 @@ Then as shown in illustration, suppose we have three processes running on the ho
 * SOCKET_2 bind to (**port:** 10087, **IP address:** 192.168.1.3, **protocol:** TCP) 
 * SOCKET_3 bind to (**port:** 10087, **IP address:** 192.168.1.3, **protocol:** UDP)
 
-So you can see, a triple **(Layer-4 port, IP address, Communication Protocol)** can uniquely determine a communication endpoint on a host. Such triple needs to be assigned to socket which the process use and it will specify the endpoint on which this socket work, and we call such a triple the **socket address**. \
+So you can see, a triple **(Layer-4 port, IP address, Communication Protocol)** can uniquely determine a communication endpoint on a host. Such triple needs to be assigned to socket which the process use and it will specify the endpoint on which this socket work, and we call such a triple the **socket address**.
 
 In the code, we use *structure* ***sockaddr_ in*** & ***sockaddr*** to load the informations of socket address. And the drawback of ***struct sockaddr*** is that it mixes the information of ip address and port together, as shown below:
 ```C
@@ -103,7 +103,7 @@ int socket(int domain, int type, int protocol);
     * **type:**          socket type, such as SOCK_STREAM (for TCP), SOCK_DGRAM (for UDP), SOCK_RAW, etc. 
     * **protocol:**      assign the protocol that the socket used, such as IPPROTO_TCP, IPPROTO_UDP, IPPROTO_STCP, etc. If don't want to assign, use 0
 * return value:
-    * If the socket create successfully, it will return a index of the created socket which is an int. \
+    * If the socket create successfully, it will return a index of the created socket which is an int.
     * If it failed, it will return -1.\
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno

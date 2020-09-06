@@ -123,10 +123,10 @@ int bind(int sockfd, const struct sockaddr *addr,socklen_t *addrlen);
     * If bind successfully, it will return 0.
     * If it failed, it will return -1.\
     Under Windows, you can use WSAGetLastError() to get the error code. \
-    Under Linux, you can get the error code via errno. \
+    Under Linux, you can get the error code via errno.
 
 ### 3.3 Close a socket
-After finishing all operations on a socket, you need to explicitly close the socket otherwise this socket will occupy the socket address (Layer-4 port, ip address, Layer-4 protocol) to which other process can't bind their sockets. \
+After finishing all operations on a socket, you need to explicitly close the socket otherwise this socket will occupy the socket address (Layer-4 port, ip address, Layer-4 protocol) to which other process can't bind their sockets.
 #### 3.3.1 Under Windows 
 You need to call function ***closesocket()***. Check details below:
 ```C
@@ -140,6 +140,6 @@ int PASCAL FAR closesocket(SOCKET s);
     Under Windows, you can use WSAGetLastError() to get the error code.
 #### 3.3.2 Under Linux 
 You need to call function ***close()***. Check details below:
-    Under Linux, you can get the error code via errno. \
+    Under Linux, you can get the error code via errno.
 
 Now please turn to the code in ***create_socket.c*** under this folder to check the full process of creating and binding a socket!

@@ -15,16 +15,30 @@ In all, it would be a reasonable design to have a central scheduler (**Server**)
 
 ## 2. What do Connection-oriented and Connectionless-oriented refer to?
 ### (1) Connection-oriented
+The common connection-oriented transport layer protocol is TCP which requires the communicating parties to perform a three-way handshake before transmitting data. It's very important to get familiar with the state transition process, check below:\
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-3.png) \
+In the common socket programming, the basic connection-oriented C/S workflow is as shown in the figure below. We will explain every step of it along with the figure of state transition process. \
 ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connection-oriented.png)
+* Server Side: \
+The **Server** will firstly create a socket as the communicatioln endpoint and explicitly bind it to socket address. Then it will set this socket as *LISTEN* mode by calling ***listen()***. Once receiving *SYN* on this socket, it will response *SYN + ACK* and turn to *SYN-RCVD* mode. If the **Client** returns a *ACK*, it will get to *ESTABLISHED* mode and three-way handshaking is finished which signs the connection is established. \
+Actually, in the implementation of TCP, there's a pending queue that holds the pending connections. The pending queue can be divided into two sub-queue as the figure shown below. \
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-4.png) \
+(1) The *Unfinished Queue* loads those sockets which have sent *SYN+ACK* after they received *SYN* from **Client**s (aka *SYN_RCVD* mode). \
+(2) The *Finished Queue* loads those sockets which have finished three-way handshaking (aka *ESTABLISHED* mode). \
+Note that the length of pending queue depends on the parameter of the function ***listen()*** which we will discess later.
+The **Server** process will call ***accept()*** to return a new socket which had finished connection establishment from *Finished Queue*. Note that this new socket binds to the same socket address as the socket which the process created at the beginning binds to. You may wonder how two sockets work on the same socket address. Actually the new socket records the information of the remote socket such as IP address, port number and protocol (i.e the triple we have mentioned above), etc. So according to the remote information, the TCP processing module is able to deliver the data to the correct process even though there exists another socket that work on the same socket address. In all, this is a very interesting and important point we're going to learn about: **A quintuple uniquely defines a connection on the Internet —— (local IP, remote IP, local port, remote port, protocol)**. \
+After establishing connections, **Server** can use ***send()*** and ***recv()*** to send and receive data to&from **Client**. Finally, calling ***closesocket()*** (under Windows) or ***close()*** (under Linux) to close the socket.
 
-### (2) Connectionless-oriented
+* Client Side: \
+After creating the socket and bind to a local socket address (Actually, the **Client** process can implicitly bind its socket to a socket address which we will explain later, let's focus on the explicit binding first), **Client** process will call ***connect()*** to start three-way handshaking to server. The process has been mentioned above so we will skip the establishing details (The state transition of **Client**: *CLOSED* -> *SYN-SENT* -> *ESTABLISHED*). Note that if the pending queue of **Server** is full, then the ***connect()*** function will return a time-out error since the **Server** will ignore the *SYN* which the **Client** sent in such a case. \
+After successfully connecting to **Server**, **Client** can also use ***send()*** and ***recv()*** to interact with the **Server** process, and calls ***closesocket()*** (under Windows) or ***close()*** (under Linux) to close the socket finally.
+
+### (2) Connectionless-orienteds
 ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connectionless-oriented.png)
 
 ## 3. Basic Socket-related Interface Functions
-### 3.1 Commonly used:
-
-### 3.2 Connection-oriented commonly used:
-#### 3.2.1 Server Side:
+### 3.1 Connection-oriented commonly used:
+#### 3.1.1 Server Side:
 ```C
 int listen( int sockfd, int backlog);
 ```
@@ -50,7 +64,7 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
 
-#### 3.2.2 Client Side:
+#### 3.1.2 Client Side:
 ```C
 int connect(int sockfd, struct sockaddr *addr, int addrlen);
 ```
@@ -59,7 +73,7 @@ int connect(int sockfd, struct sockaddr *addr, int addrlen);
     * ***addr:**  a pointer to struct sockaddr which include the information of remote server 
     * **addrlen:** length of **addr** 
 * note:
-    *Actually, connect() can also be used in connectionless oriented communication. See below:*\
+    *Actually, connect() can also be used in connectionless oriented communication. See below:*
     * For stream sockets, the connect() call attempts to establish a connection between two sockets. The connect() call performs two tasks when called for a stream socket. First, it completes the binding necessary for a stream socket (in case it has not been previously bound using the bind() call). Second, it attempts to make a connection to another socket.
     * For datagram sockets, the connect() call specifies the peer for a socket (i.e. ipaddr & port). 
 * return value:
@@ -68,7 +82,7 @@ int connect(int sockfd, struct sockaddr *addr, int addrlen);
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
     
-#### 3.2.3 Server & Client Common:
+#### 3.1.3 Server & Client Common:
 ```C
 int send(int sockfd, const char *buf, int len, int flags);
 ```
@@ -106,8 +120,8 @@ int recv( SOCKET sockfd, char *buf, int len, int flags);
     * If the network was disconnected while waiting for the kernel to receiving data, 
       * under Windows: it will return *SOCKET_ERROR*.
       * under Linux: The process will receives a *SIGPIPE* signal, and the default processing of this signal is process termination.
-### 3.3 Connectionless-oriented commonly used:
-#### 3.3.1 Server & Client Common:
+### 3.2 Connectionless-oriented commonly used:
+#### 3.2.1 Server & Client Common:
 ```C
 int sendto (int sockfd, const void *buf, int len, unsigned int flags, const struct sockaddr *dest_addr, int addrlen);
 ```
@@ -139,26 +153,3 @@ int recvfrom(int sockfd, void *buf, int len, unsigned int flags, struct sockaddr
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
 
-### 3.4 Others
-Different CPUs have different endian types. These endianness refer to the order in which integers are stored in memory. This is called **host byte order**. There are two most common ones: 
-1. **Little endian:** low byte stores high address, high byte stores low address
-2. **Big endian:** low byte stores low address, high byte stores high address.
-
-The **network byte order** is the data representation format specified in TCP/IP. It has nothing to do with the specific CPU type, operating system, etc., so as to ensure that the data can be interpreted correctly when transmitted between different hosts. Commonly, the network byte order adopts big endian order.
-
-Now let's see some conversion functions which help us to configure the ip address and port number of socket. You need to know the conversion process, see below:
-
-  * IP address:
-    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/ipaddr%20conversion%20process.png)
-  * Port number:
-    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/port%20conversion%20process.png)
-\
-Note that to use these functions:
-Under windows, they're already inside the header file: winsock.h
-```C
-#include <winsock.h>
-```
-Under Linux, you need to include header file: arpa/inet.h
-```C
-#include <arpa/inet.h>
-```

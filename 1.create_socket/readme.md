@@ -58,6 +58,7 @@ In the code, we use *structure* ***sockaddr_ in*** & ***sockaddr*** to load the 
 ```
 
 ## 3. What are **Host-byte order**, **Network-byte order**, **Big endian**, **Small endian** and why?
+Whether we're configuring the IP address or port number, it's actually a configuration of numbers, so it will involve the endianness of the numbers. As a result, this question is worth to be discusses in this section. \
 Different CPU have different endian types. These endianness refer to the order in which integers are stored in memory. This is called **host byte order**. There are two most common ones: 
 1. **Little endian:** The high bytes of data are stored in the low address of memory, and the low bytes of data are stored in the high address of memory.
 2. **Big endian:** The high bytes of data are stored in the high address of memory, and the low bytes of data are stored in the low address of memory.

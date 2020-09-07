@@ -15,17 +15,17 @@ In all, it would be a reasonable design to have a central scheduler (**Server**)
 
 ## 2. What do Connection-oriented and Connectionless-oriented refer to?
 ### (1) Connection-oriented
-The common connection-oriented transport layer protocol is TCP which requires the communicating parties to perform a three-way handshake before transmitting data. It's very important to get familiar with the state transition process, check below:\
+The common connection-oriented transport layer protocol is TCP which requires the communicating parties to perform a three-way handshake before transmitting data. It's very important to get familiar with the state transition process, check below: (Souce: **TCP/IP Protocol Suite (Fourth Edition)** by  *Behrouz A. Forouzan*, Page 449)\
 ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-3.png) \
 In the common socket programming, the basic connection-oriented C/S workflow is as shown in the figure below. We will explain every step of it along with the figure of state transition process. \
 ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connection-oriented.png)
 * Server Side: \
 The **Server** will firstly create a socket as the communicatioln endpoint and explicitly bind it to socket address. Then it will set this socket as *LISTEN* mode by calling ***listen()***. Once receiving *SYN* on this socket, it will response *SYN + ACK* and turn to *SYN-RCVD* mode. If the **Client** returns a *ACK*, it will get to *ESTABLISHED* mode and three-way handshaking is finished which signs the connection is established. \
-Actually, in the implementation of TCP, there's a pending queue that holds the pending connections. The pending queue can be divided into two sub-queue as the figure shown below. \
+Actually, in the implementation of TCP, there's a pending queue that holds the pending connections. The pending queue can be divided into two subqueues as the figure shown below. \
 ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-4.png) \
 (1) The *Unfinished Queue* loads those sockets which have sent *SYN+ACK* after they received *SYN* from **Client**s (aka *SYN_RCVD* mode). \
 (2) The *Finished Queue* loads those sockets which have finished three-way handshaking (aka *ESTABLISHED* mode). \
-Note that the length of pending queue depends on the parameter of the function ***listen()*** which we will discess later.
+Note that the length of pending queue depends on the parameter of the function ***listen()*** which we will discuss later.
 The **Server** process will call ***accept()*** to return a new socket which had finished connection establishment from *Finished Queue*. Note that this new socket binds to the same socket address as the socket which the process created at the beginning binds to. You may wonder how two sockets work on the same socket address. Actually the new socket records the information of the remote socket such as IP address, port number and protocol (i.e the triple we have mentioned above), etc. So according to the remote information, the TCP processing module is able to deliver the data to the correct process even though there exists another socket that work on the same socket address. In all, this is a very interesting and important point we're going to learn about: **A quintuple uniquely defines a connection on the Internet —— (local IP, remote IP, local port, remote port, protocol)**. \
 After establishing connections, **Server** can use ***send()*** and ***recv()*** to send and receive data to&from **Client**. Finally, calling ***closesocket()*** (under Windows) or ***close()*** (under Linux) to close the socket.
 

@@ -2,7 +2,7 @@
 
 ## **Preface**
 ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/main_page/top_pic.png) \
-This repo contains codes and corresponding notes for network communication programs which were wrote by our group during the undergraduate course ***Design of Network Software*** taught by Prof. Duan in 2020 spring semester (online) in UESTC. You can use these codes along with the *readme.md* in each section as a basic tutorial for knowing how to use TCP/UDP sockets and design the framework of different types of network communication software such as online chatting, file transferring, etc. The only type of socket we discussed and showed in this repo is TCP/UDP socket (Layer 4). To better understand all these codes, it will be perfect that you had learn basic knowledge of TCP/IP stack before you check them. All the codes were wrote in C and are able to be compiled and run on both Windows & Linux environment.
+This repo contains codes and corresponding notes for network communication programs which were wrote during the undergraduate course ***Design of Network Software*** taught by Prof. Duan in 2020 spring semester (online) in UESTC. You can use these codes along with the *readme.md* in each section as a basic tutorial for knowing how to use TCP/UDP sockets and design the framework of different types of network communication software such as online chatting, file transferring, etc. The only type of socket we discussed and showed in this repo is TCP/UDP socket (Layer 4). To better understand all these codes, it will be perfect that you had learn basic knowledge of TCP/IP stack before you check them. All the codes were wrote in C and are able to be compiled and run on both Windows & Linux environment.
 
 ## **Structure**
 This repo can be divided into three parts and they're arranged as below:
@@ -23,5 +23,5 @@ This repo can be divided into three parts and they're arranged as below:
     * "Rough Closure"
     * Closing by High level Consultation
     * "Elegant Closing"
-* **PART 2: Framework of Network Communication Software**
-* **PART 3: Extension and Examples**
+### **PART 2: Framework of Network Communication Software**
+### **PART 3: Extension and Examples**

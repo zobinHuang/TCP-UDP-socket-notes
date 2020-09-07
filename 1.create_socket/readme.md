@@ -25,7 +25,7 @@ In the code, we use *structure* ***sockaddr_ in*** & ***sockaddr*** to load the 
         char             sa_data[14]; //14 bytes, containing the destination address and port information of the socket               
     };
 ```
-***struct sockaddr_in*** fixes this problem, usually programmer use ***struct sockaddr_in*** to config the parameters, then cast to ***struct sockaddr*** as the parameter of some socket functions such as ***bind()***, ***connect()***, ***recvfrom()***, ***sendto()***, etc. Note that there exist some differences of ***struct sockaddr_in*** under different operating system, see below.
+***struct sockaddr_in*** fixes this problem, usually programmer use ***struct sockaddr_in*** to config the parameters such as IP address and port, then cast to ***struct sockaddr*** as the parameter of some socket functions such as ***bind()***, ***connect()***, ***recvfrom()***, ***sendto()***, etc. Note that there exist some differences of ***struct sockaddr_in*** under different operating system, see below.
 ### struct sockaddr_in:
 ```C
     //under Windows & Linux:
@@ -56,12 +56,12 @@ In the code, we use *structure* ***sockaddr_ in*** & ***sockaddr*** to load the 
         In_addr_t        s_addr;  //32 bits, ipv4 address.
     }
 ```
-We will use these two structures in our next section. Now you just need to know what these two structures used for and their relationship.
+## 3. What are **Host-byte order**, **Network-byte order**, **Big endian**, **Small endian** and why?
 
-## 3. How to create a socket and bind to a socket address? 
+## 4. How to create a socket and bind to a socket address? 
 Now you know some very basic stuff of socket. Let's turn to program and see how to create a socket in the code.
 
-### 3.1 Environment setup:
+### 4.1 Environment setup:
 #### (1) under Windows:
 Under Windows, you need to:
 * include header file:
@@ -93,7 +93,7 @@ Under Linux, you just need to:
 #include <unistd.h> //contains lots of function prototypes of system services: read(), write(), getpid(), close(), etc
 ```
 
-### 3.2 Create a socket:
+### 4.2 Create a socket:
 To create a socket the program needs to call ***socket( )***. Check details below:
 ```C
 int socket(int domain, int type, int protocol);
@@ -110,7 +110,7 @@ int socket(int domain, int type, int protocol);
 
 Don't worry if you feel unfamiliar with all these three parameters since we haven't discuss about them until next section.
 
-### 3.2 Explicitly bind a socket to a socket address:
+### 4.3 Explicitly bind a socket to a socket address:
 After successfully creating a socket, to explicitly bind a socket to a socket address, you need to call function ***bind()***. Check details below:
 ```C
 int bind(int sockfd, const struct sockaddr *addr,socklen_t *addrlen);
@@ -125,9 +125,9 @@ int bind(int sockfd, const struct sockaddr *addr,socklen_t *addrlen);
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
 
-### 3.3 Close a socket
+### 4.4 Close a socket
 After finishing all operations on a socket, you need to explicitly close the socket otherwise this socket will occupy the socket address (Layer-4 port, ip address, Layer-4 protocol) to which other process can't bind their sockets.
-#### 3.3.1 Under Windows 
+#### 4.4.1 Under Windows 
 You need to call function ***closesocket()***. Check details below:
 ```C
 int PASCAL FAR closesocket(SOCKET s);
@@ -138,7 +138,7 @@ int PASCAL FAR closesocket(SOCKET s);
     * If close successfully, it will return 0.
     * If it failed, it will return -1.\
     Under Windows, you can use WSAGetLastError() to get the error code.
-#### 3.3.2 Under Linux 
+#### 4.4.2 Under Linux 
 You need to call function ***close()***. Check details below:
     Under Linux, you can get the error code via errno.
 

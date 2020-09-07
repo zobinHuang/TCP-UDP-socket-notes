@@ -7,7 +7,7 @@ This repo contains codes and corresponding notes for network communication progr
 ## **Structure**
 This repo can be divided into three parts and they're arranged as below:
 ### **PART 1: Basic Notes of Socket**
-  * [**Section 1: Socket**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/1.create_socket)
+  * [**Section 1: Socket (Finished)**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/1.create_socket)
     * What is a **socket**? 
     * What is the relationship among **socket**, **socket address**, **port** and **ip address**?
     * What are **Host-byte order**, **Network-byte order**, **Big endian**, **Small endian** and why?

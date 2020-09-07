@@ -56,7 +56,31 @@ In the code, we use *structure* ***sockaddr_ in*** & ***sockaddr*** to load the 
         In_addr_t        s_addr;  //32 bits, ipv4 address.
     }
 ```
+
 ## 3. What are **Host-byte order**, **Network-byte order**, **Big endian**, **Small endian** and why?
+Different CPU have different endian types. These endianness refer to the order in which integers are stored in memory. This is called **host byte order**. There are two most common ones: 
+1. **Little endian:** The high bytes of data are stored in the low address of memory, and the low bytes of data are stored in the high address of memory.
+2. **Big endian:** The high bytes of data are stored in the high address of memory, and the low bytes of data are stored in the low address of memory.
+
+Their difference is as shown in illustration below. \
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec1/1-2.png) \
+The **network byte order** is the data representation format specified in TCP/IP. It has nothing to do with the specific CPU type, operating system, so as to ensure that the data can be interpreted correctly when transmitted between different hosts. Commonly, the network byte order adopts big endian order.
+
+Now let's see some conversion functions which help us to configure the ip address and port number of socket. You need to know the conversion process, see below:
+
+  * IP address: \
+    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec1/1-3.png)
+  * Port number: \
+    ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec1/1-4.png) \
+Note that to use these functions:
+Under windows, they're already inside the header file: winsock.h
+```C
+#include <winsock.h>
+```
+Under Linux, you need to include header file: arpa/inet.h
+```C
+#include <arpa/inet.h>
+```
 
 ## 4. How to create a socket and bind to a socket address? 
 Now you know some very basic stuff of socket. Let's turn to program and see how to create a socket in the code.

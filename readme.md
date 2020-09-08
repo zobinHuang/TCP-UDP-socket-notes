@@ -13,7 +13,7 @@ This repo can be divided into three parts and they're arranged as below:
     * What are **Host-byte order**, **Network-byte order**, **Big endian**, **Small endian** and why?
     * How to create a socket under Windows and Linux?
     * How to bind a socket to a local socket address?
-  * [**Section 2: C/S Model**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/2.cs_model) 
+  * [**Section 2: C/S Model (Finished)**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/2.cs_model) 
     * What is **Client/Server Model** and why? 
     * What **Connection-oriented** and **Connectionless-oriented** refer to? 
     * What is the difference between **Stream Service** and **Datagram Service**?

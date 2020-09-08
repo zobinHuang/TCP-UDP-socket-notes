@@ -34,12 +34,21 @@ After establishing connections, **Server** can use ***send()*** and ***recv()***
 After creating the socket and binding to a local socket address (Actually, the **Client** process can implicitly bind its socket to a socket address which we will explain later, let's focus on the explicit binding first), **Client** process will call ***connect()*** to start three-way handshaking to server. The process has been mentioned above so we will skip the establishing details (The state transition of **Client**: *CLOSED* -> *SYN-SENT* -> *ESTABLISHED*). Note that if the pending queue of **Server** is full, then the ***connect()*** function will return a time-out error since the **Server** will ignore the *SYN* which the **Client** sent in such a case. \
 After successfully connecting to **Server**, **Client** can also use ***send()*** and ***recv()*** to interact with the **Server** process, and calls ***closesocket()*** (under Windows) or ***close()*** (under Linux) to close the socket finally.
 
-### (2) Connectionless-orienteds
+### (2) Connectionless-oriented
 Connectionless-oriented service is much more easy than connection-oriented one. The common connectionless-oriented transport layer protocol is UDP. It doesn't require any connection establishment in advance. The **Client** process only needs to set up the remote socket address of server and send data/requests to it. The **Server** will receive data/request from its **main socket**, and it will know who send these data by reading the parameter in the function ***recvfrom()*** which we will explain later, and then conducts corresponding processing and response to the **Client** process. The whole workflow is as shown as below: \
 ![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-6.png) \
 We will skip some details since we have explained connection-oriented service in detail above, so it's easy to understand how connectionless-oriented works.
 
 ## 3. What is the difference between **Stream Service** and **Datagram Service**?
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-7.png) \
+As Shown in the figure, 
+* TCP Stream Service: 
+    * The sender just writes the data into the TCP send buffer, and then on the transport layer, it will pack the data from the send buffer into segments and sends it out. On the other side, the receiver's transport layer entity will read the received segments and write into the buffer (in order), and its application process can fetch the data from the buffer by calling ***recv()*** which we will explain in detail later.
+    * You can see, the data is not clearly divided on the application layer, so that's why we call it "Data Byte Stream".
+    * Since TCP provides the reliability of data transmission on transport layer, so it's suitable for TCP to offer stream service.
+* UDP Datagram Service:
+    * Different from the stream service, in datagram service, the sender will packs the data into a datagram directly on the application layer. On the receiving side, the application process receives individual packed datagrams by calling ***recvfrom()*** (which we will also explain later) instead of reading receiving buffer. Note that the order of received datagram may be out of order.
+    * You can see, the data is clearly divided on application layer in datagram service. So how many times the sender calls ***sendto()*** (which we will also explain later) to send datagrams, the receiver needs to call ***recvfrom()*** for the same times to receive all sent datagram.
 
 ## 4. Basic Socket-related Interface Functions
 It's very important for socket programmers to know how these common-used socket interface functions work. I mean it would be perfect to know details of them as many as you can, and I will keep to update this subsection once I figure out more details of them. \

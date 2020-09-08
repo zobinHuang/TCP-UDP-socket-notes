@@ -182,4 +182,6 @@ Now you can turn to the code to check for:
 * How Connection-oriented C/S works. Code's in the folder ***connection_client*** & ***connection_server***
 * How Connectionless-oriented C/S works. Code's in the folder ***connectionless_client*** & ***connectionless_server***
 
+## **Appendix:**
+* [**Error Code Table (Windows & Linux)**](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/2.cs_model/error_code.md)
 

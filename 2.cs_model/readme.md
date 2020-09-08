@@ -47,62 +47,71 @@ It's very important for socket programmers to know how these common-used socket 
 ### 4.1 Connection-oriented commonly used:
 #### 4.1.1 Server Side:
 ```C
-int listen( int sockfd, int backlog);
+int listen(int sockfd, int backlog);
 ```
-* parameters:
+* Parameters:
     * **sockfd:** socket index.
     * **backlog:** The maximum length of the pending queue.
-* return value: 
+* Return Value: 
     * If successfully set as listen , it will return 0.
     * If it failed, it will return -1.\
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
+* Function: For TCP socket, set it as *LISTEN* state.
+* Notes:
+    * The socket must explicitly bind to a local socket address before calling ***listen()***.
+    * If the parameter **backlog** equals 0, this socket can still accept one connection.
 
 ```C
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 ```
-* parameters:
+* Parameters:
     * **sockfd:** socket index.
     * ***addr:** The socket address of newly accepted socket. Usually pass a struct sockaddr_in, then cast to struct sockaddr, and pass the pointer as this parameter (a.k.a (struct sockaddr\*)&sockaddr_in).
     * ***addrlen:** NOTE! This is the ***address*** of the int which represents the sizeof **addr**.
-* return value: 
+* Return value: 
     * If accept successfully, it will return a new socket which connect to the client.
     * If it failed, it will return -1.\
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
+* Function: Return a **new socket** from *Finished Queue* of the socket's pending queue.
+* Notes:
+    * The socket must set as *LISTEN* state before calling ***accept()***.
+    * For blocking sockets, if the *Finished Queue* is empty (aka no connection request) while calling ***accept()***, the socket will block.
 
 #### 4.1.2 Client Side:
 ```C
 int connect(int sockfd, struct sockaddr *addr, int addrlen);
 ```
-* parameters:
+* Parameters:
     * **sockfd:** socket index
     * ***addr:**  a pointer to struct sockaddr which include the information of remote server 
     * **addrlen:** length of **addr** 
-* note:
-    *Actually, connect() can also be used in connectionless oriented communication. See below:*
-    * For stream sockets, the connect() call attempts to establish a connection between two sockets. The connect() call performs two tasks when called for a stream socket. First, it completes the binding necessary for a stream socket (in case it has not been previously bound using the bind() call). Second, it attempts to make a connection to another socket.
-    * For datagram sockets, the connect() call specifies the peer for a socket (i.e. ipaddr & port). 
-* return value:
+* Return value:
     * If connect successfully, it will return 0
     * If it failed, it will returns -1.\
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
-    
+* Function: 
+    *Actually, ***connect()*** can be used both in connection-oriented and connectionless-oriented communication. See below:*
+    * For TCP sockets, the ***connect()*** call attempts to establish a connection between two sockets. The ***connect()*** call performs two tasks when called for a stream socket. First, it completes the binding necessary for a stream socket (in case it has not been previously bound using the ***bind()*** call). Second, it attempts to make a connection to another socket.
+    * For UDP sockets, the ***connect()*** call specifies the peer for a socket (i.e. ipaddr, port, protocol, etc). 
+* Notes:
+    * The socket must explicitly bind to a local socket address before calling ***connect()***.
 #### 4.1.3 Server & Client Common:
 ```C
 int send(int sockfd, const char *buf, int len, int flags);
 ```
-* parameters:
+* Parameters:
     * **sockfd:** send socket index.
     * ***buf:** indicates a buffer that stores the send data.
     * **len:** the number of bytes of data that desire to be sent.
     * **flags:** commonly set as 0.
-* execution process (blocked mode):
+* Execution process (blocked mode):
     * Firstly, it will compare the length of the data to be sent (**len**) and the length of the send buffer of the socket (**sockfd**). If **len** is greater than the length of the send buffer of (**sockfd**), the function returns *SOCKET_ERROR*.
     * If **len** is less than or equal to the length of the send buffer of **sockfd**, then it will check whether the kernel is sending the data in the sending buffer of **sockfd**. If so, wait for the send process to complete.
     * If the kernel has not started sending the data in the sending buffer of **sockfd** or there is no data in the buffer, then it will compare the remaining space of **sockfd**'s send buffer with **len**. If **len** is larger than the size of the remaining space, then it will wait for the kernel to send the data in the buffer of **sockfd**. Otherwise, it will copy the data in **buf** to the send buffer of **sockfd**.
-* return value:
+* Return value:
     * If it successfully copies data from **buf** to the send buffer of **sockfd**, it will return the actual number of bytes it copied.
     * If an error happened during copying data, it will return *SOCKET_ERROR*.
     * If the network was disconnected while waiting for the kernel to send data, 
@@ -112,16 +121,16 @@ int send(int sockfd, const char *buf, int len, int flags);
 ```C
 int recv( SOCKET sockfd, char *buf, int len, int flags);
 ```
-* parameters:
+* Parameters:
     * **sockfd:** index of recv socket.
     * ***buf:** indicates a buffer that want to store the receiving data.
     * **len:** the length of **buf**.
     * **flags:** commonly set as 0.
-* execution process (blocked mode):
+* Execution process (blocked mode):
     * Firstly, it will wait for the data in the sending buffer of **sockfd** to be snet by the kernel. If a network error happened during transmition, then it will returns *SOCKET_ERROR*.
     * If there is no data in **sockfd**'s sending buffer or the data is successfully sent by the kernel, then it will check the receive buffer of **sockfd**. If there is no data in the receive buffer or the kernel is receiving data, then it will wait until the data is completly received by the kernel.
     * After the kernel received the data, then it will copy the data in the receive buffer of **sockfd** to **buf** (note that the data received by the kernel may be larger than the length of **buf** (**len**), so in this case, it is necessary to call the recv() for several times to copy all the data in the receive buffer of **sockfd**.
-* return value:
+* Return value:
     * If it successfully copies data from the send buffer of **sockfd** to **buf**, it will return the actual number of bytes it copied.
     * If an error happened during copying data, it will return *SOCKET_ERROR*.
     * If the network was disconnected while waiting for the kernel to receiving data, 
@@ -132,14 +141,14 @@ int recv( SOCKET sockfd, char *buf, int len, int flags);
 ```C
 int sendto (int sockfd, const void *buf, int len, unsigned int flags, const struct sockaddr *dest_addr, int addrlen);
 ```
-* parameters:
+* Parameters:
     * **sockfd:** send socket index.
     * ***buf:** indicates the buf that stores the data to be sent.
     * **len:** indicates the length of the data to send.
     * **flag:** commonly set as 0.
     * ***dest_addr:** address of a struct sockaddr that contains the destinated host's ip address and port number.
     * **addrlen:** length of **dest_addr**
-* return value:
+* Return value:
     * If it successfully copies data from **buf** to the send buffer of **sockfd**, it will return the actual number of bytes it copied.
     * If an error happened during copying data, it will return -1. 
     Under Windows, you can use WSAGetLastError() to get the error code. \
@@ -147,14 +156,14 @@ int sendto (int sockfd, const void *buf, int len, unsigned int flags, const stru
 ```C
 int recvfrom(int sockfd, void *buf, int len, unsigned int flags, struct sockaddr *sour_addr, int *addrlen);
 ```
-* parameters:
+* Parameters:
   * **sockfd:** send socket index.
   * ***buf:** indicates the buf that wants to store the recv data.
   * **len:** indicates the length of **buf**.
   * **flag:** commonly set as 0.
   * ***sour_addr:** address of a struct sockaddr that contains the source host's ip address and port number.
   * ***addrlen:** NOTE! This is the ***address*** of the int which represents the length of **sour_addr**
-* return value:
+* Return value:
     * If it successfully receive data and store in **buf** from the receive buffer of **sockfd**, it will return the actual number of bytes it copied.
     * If an error happened during copying data, it will return -1.
     Under Windows, you can use WSAGetLastError() to get the error code. \

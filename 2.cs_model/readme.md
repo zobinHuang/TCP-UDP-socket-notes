@@ -178,3 +178,8 @@ int recvfrom(int sockfd, void *buf, int len, unsigned int flags, struct sockaddr
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
 
+Now you can turn to the code to check for:
+* How Connection-oriented C/S works. Code's in the folder ***connection_client*** & ***connection_server***
+* How Connectionless-oriented C/S works. Code's in the folder ***connectionless_client*** & ***connectionless_server***
+
+

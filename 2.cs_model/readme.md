@@ -27,7 +27,7 @@ There's another point that we need to talk about. In the implementation of socke
 (1) The *Unfinished Queue* loads those **new sockets** which have sent *SYN+ACK* after they received *SYN* but still not receive *ACK* from corresponding **Client** process yet (aka *SYN_RCVD* mode). \
 (2) The *Finished Queue* loads those **new sockets** which have finished three-way handshaking (aka *ESTABLISHED* mode). \
 Note that the length of pending queue depends on the parameter of the function ***listen()*** which we will discuss later. \
-The **Server** process will call ***accept()*** to return **new socket**s which had finished connection establishment from *Finished Queue*. Note that these new sockets bind to the same local socket address as the **main socket** binds to. You may wonder how multiple sockets work on the same socket address. Actually the new socket records the information of the remote socket such as IP address, port number and protocol (i.e the triple we have mentioned above), etc. So according to the remote information, the TCP processing module is able to deliver the data to the correct socket even though there exists another socket that work on the same socket address. In all, this is a very interesting and important point: **A quintuple uniquely defines a connection on the Internet —— (local IP, remote IP, local port, remote port, protocol)**. \
+The **Server** process will call ***accept()*** to return **new socket**s which had finished connection establishment from *Finished Queue*. Note that these new sockets bind to the same local socket address as the **main socket** binds to. You may wonder how multiple sockets work on the same local socket address. Actually the new socket records the information of the remote socket such as IP address, port number and protocol (i.e the triple we have mentioned above), etc. So according to the remote information, the TCP processing module is able to deliver the data to the correct socket even though there exists another socket that work on the same local socket address. In all, this is a very interesting and important point: **A quintuple uniquely defines a connection on the Internet —— (local IP, remote IP, local port, remote port, protocol)**. \
 After establishing connections, **Server** can use ***send()*** and ***recv()*** to send and receive data to&from **Client**. Finally, calling ***closesocket()*** (under Windows) or ***close()*** (under Linux) to close the socket.
 
 * Client Side: \
@@ -35,17 +35,23 @@ After creating the socket and binding to a local socket address (Actually, the *
 After successfully connecting to **Server**, **Client** can also use ***send()*** and ***recv()*** to interact with the **Server** process, and calls ***closesocket()*** (under Windows) or ***close()*** (under Linux) to close the socket finally.
 
 ### (2) Connectionless-orienteds
-![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/Sequence%20of%20Connectionless-oriented.png)
+Connectionless-oriented service is much more easy than connection-oriented one. The common connectionless-oriented transport layer protocol is UDP. It doesn't require any connection establishment in advance. The **Client** process only needs to set up the remote socket address of server and send data/requests to it. The **Server** will receive data/request from its **main socket**, and it will know who send these data by reading the parameter in the function ***recvfrom()*** which we will explain later, and then conducts corresponding processing and response to the **Client** process. The whole workflow is as shown as below: \
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec2/2-6.png) \
+We will skip some details since we have explained connection-oriented service in detail above, so it's easy to understand how connectionless-oriented works.
 
-## 3. Basic Socket-related Interface Functions
-### 3.1 Connection-oriented commonly used:
-#### 3.1.1 Server Side:
+## 3. What is the difference between **Stream Service** and **Datagram Service**?
+
+## 4. Basic Socket-related Interface Functions
+It's very important for socket programmers to know how these common-used socket interface functions work. I mean it would be perfect to know details of them as many as you can, and I will keep to update this subsection once I figure out more details of them. \
+*Note that before reading this subsection, you must ensure you're familiar with things that we explained in the former subsections, or this subsection will be meaningless.*
+### 4.1 Connection-oriented commonly used:
+#### 4.1.1 Server Side:
 ```C
 int listen( int sockfd, int backlog);
 ```
 * parameters:
     * **sockfd:** socket index.
-    * **backlog:** The maximum length of the waiting connection queue.
+    * **backlog:** The maximum length of the pending queue.
 * return value: 
     * If successfully set as listen , it will return 0.
     * If it failed, it will return -1.\
@@ -65,7 +71,7 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
 
-#### 3.1.2 Client Side:
+#### 4.1.2 Client Side:
 ```C
 int connect(int sockfd, struct sockaddr *addr, int addrlen);
 ```
@@ -83,7 +89,7 @@ int connect(int sockfd, struct sockaddr *addr, int addrlen);
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
     
-#### 3.1.3 Server & Client Common:
+#### 4.1.3 Server & Client Common:
 ```C
 int send(int sockfd, const char *buf, int len, int flags);
 ```
@@ -121,8 +127,8 @@ int recv( SOCKET sockfd, char *buf, int len, int flags);
     * If the network was disconnected while waiting for the kernel to receiving data, 
       * under Windows: it will return *SOCKET_ERROR*.
       * under Linux: The process will receives a *SIGPIPE* signal, and the default processing of this signal is process termination.
-### 3.2 Connectionless-oriented commonly used:
-#### 3.2.1 Server & Client Common:
+### 4.2 Connectionless-oriented commonly used:
+#### 4.2.1 Server & Client Common:
 ```C
 int sendto (int sockfd, const void *buf, int len, unsigned int flags, const struct sockaddr *dest_addr, int addrlen);
 ```

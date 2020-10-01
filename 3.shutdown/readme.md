@@ -1,2 +1,4 @@
 # **Section 3: Shutdown of Communication**
-to be added...
+For this section, you need to know followings:
+
+* "Rough Closure"

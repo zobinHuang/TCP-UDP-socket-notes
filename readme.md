@@ -24,4 +24,5 @@ This repo can be divided into three parts and they're arranged as below:
     * Closing by High level Consultation
     * "Elegant Closing"
 ### **PART 2: Framework of Network Communication Software**
+  * **Section 1: Design of Multiplexing Server**
 ### **PART 3: Extension and Examples**

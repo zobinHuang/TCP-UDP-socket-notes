@@ -1,4 +1,4 @@
-//server.c: After establishing a connection and receiving the string sent by the client, send back an ACK string to the client.
+//server.c: establishing multiple connections with multiple clients
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>

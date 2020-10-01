@@ -19,10 +19,10 @@ This repo can be divided into three parts and they're arranged as below:
     * What is the difference between **Stream Service** and **Datagram Service**?
     * How to use basic socket-related interface functions?
     * Write connction-oriented and connectionless-oriented C/S programs for basic string transferring!
-  * **Section 3: Shutdown of Connection-oriented Service**
+  * [**Section 3: Shutdown of Connection-oriented Service**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/3.shutdown)
     * "Rough Closure"
     * Closing by High level Consultation
     * "Elegant Closing"
 ### **PART 2: Framework of Network Communication Software**
-  * **Section 1: Design of Multiplexing Server**
+  * [**Section 4: Design of Multiplexing Server**](https://github.com/zobinHuang/TCP-UDP-socket-notes/tree/master/4.multiplexing)
 ### **PART 3: Extension and Examples**

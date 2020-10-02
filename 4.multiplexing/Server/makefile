@@ -5,7 +5,7 @@ server: $(CONNECT-CLIENT-OBJ)
 	$(CC) -o server $(CONNECT-CLIENT-OBJ)
 
 server.o: server.c SockList.h
-	$(CC) -c server.c SockList.h
+	$(CC) -c server.c
 
 SockList.o: SockList.c
 	$(CC) -c SockList.c

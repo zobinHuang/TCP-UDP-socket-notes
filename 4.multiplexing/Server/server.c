@@ -17,7 +17,7 @@
     #include <sys/time.h> //to use struct timeval
     #include <fcntl.h> //to use fcntl()
 #endif
-
+ 
 #define SERVER_IP "127.0.0.1"
 #define SERVER_TCP_PORT 0x1234
 
@@ -45,7 +45,7 @@ int main()
         printf_error();
         goto exit;
     }
-
+    
     //bind
     server_addr.sin_family = AF_INET;
     #ifdef _WIN32
@@ -169,7 +169,7 @@ int main()
 		FD_ZERO(&writefds);
 		FD_ZERO(&exceptfds);
     }
-
+    
     exit:{
         #ifdef _WIN32
             if(s >= 0){

@@ -17,7 +17,7 @@
     #include <sys/time.h> //to use struct timeval
     #include <fcntl.h> //to use fcntl()
 #endif
- 
+
 #define SERVER_IP "127.0.0.1"
 #define SERVER_TCP_PORT 0x1234
 

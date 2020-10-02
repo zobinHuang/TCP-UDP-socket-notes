@@ -96,7 +96,7 @@ int main()
 		//make_fdlist(&sock_list, &exceptfds);
 
         /*2. select*/
-        retval = select(0, &readfds, &writefds, &exceptfds, NULL);
+        retval = select(0, &readfds, &writefds, &exceptfds, &timeout);
         if(retval < 0){
             printf_error();
             goto exit;

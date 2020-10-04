@@ -35,9 +35,8 @@ void delete_list(int s, socket_list *list)
 
 void make_fdlist(socket_list *list, fd_set *fd_list)
 {
-	int i;
-	FD_SET(list->MainSock,fd_list);
-	for(i = 0; i<SOCKETLIST_LENGTH; i++){
+	FD_SET(list->MainSock, fd_list);
+	for(int i = 0; i<SOCKETLIST_LENGTH; i++){
 		if(list->sock_array[i] > 0){
 			FD_SET(list->sock_array[i], fd_list);
 		}

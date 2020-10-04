@@ -96,7 +96,7 @@ int main()
 		//make_fdlist(&sock_list, &exceptfds);
 
         /*2. select*/
-        retval = select(0, &readfds, &writefds, &exceptfds, &timeout);
+        retval = select(FD_SETSIZE, &readfds, &writefds, &exceptfds, &timeout);
         if(retval < 0){
             printf_error();
             goto exit;
@@ -150,7 +150,12 @@ int main()
                 }
                 //show recv data
                 recvbuf[retval] = 0;
-                fprintf(stdout, "->%s\n", recvbuf);
+                fprintf(stdout, "-> %s\n", recvbuf);
+
+                /*
+                    to be add...
+                */
+
             }
 
             /*check writefds*/

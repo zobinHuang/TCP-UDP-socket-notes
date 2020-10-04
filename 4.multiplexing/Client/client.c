@@ -1,4 +1,4 @@
-//client.c: After establishing connection with remote server, send a mesaage to server then wait for a ACK reply
+//connection_oriented_client.c: After establishing connection with remote server, send a mesaage to server then wait for a ACK reply
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>

@@ -8,7 +8,7 @@ When a client process invokes *close()* (under Linux) or *closesocket()* (under 
 Above all, to intuitively see what's going on during these operations, we strongly recommend you to install a network packet capture software such as WireShark and run the following programs under debug mode. \
 Firstly, compile and run the server process under *./rough/server/server*, and the first client process under *./rough/client/client_1*. Note that We did this experient under Windows. \
 If it works, you can capture a *TCP_FIN* from client to server after the client invoking *closesocket()*, see below:\
-![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec3/3-1.png) \
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec3/sec3-1.png) \
 And cpature another *TCP_FIN* from server to client after the server invoking *recv()* to try to receive data from client, see below: \
-![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec3/3-2.png) \
+![image](https://github.com/zobinHuang/TCP-UDP-socket-notes/blob/master/0.diagram/sec3/sec3-2.png) \
 ### (2) Directly kill the client process

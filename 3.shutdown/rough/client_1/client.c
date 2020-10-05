@@ -1,4 +1,4 @@
-//client.c: After establishing connection with remote server, send a mesaage to server then wait for a ACK reply
+//client.c: create a socket, connect to server and then close it
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -72,25 +72,6 @@ int main()
         printf_error();
         goto exit;
     }
-
-    //send
-    memset(sendbuf, '\0', sizeof(sendbuf));
-    strcpy(sendbuf, "Hi!");
-    retval = send(s, sendbuf, strlen(sendbuf) + 1, 0);
-    if(retval <= 0){
-        printf_error();
-        goto exit;
-    }
-    fprintf(stdout, "Successfully send data: %s, data length: %d\n", sendbuf, retval);
-
-    //receive
-    memset(recvbuf, '\0', sizeof(recvbuf));
-    retval = recv(s, recvbuf, sizeof(recvbuf), 0);
-    if(retval <= 0){
-        printf_error();
-        goto exit;
-    }
-    fprintf(stdout, "Successfully recv data: %s, data length: %d\n", recvbuf, retval);
 
     exit:{
         #ifdef _WIN32

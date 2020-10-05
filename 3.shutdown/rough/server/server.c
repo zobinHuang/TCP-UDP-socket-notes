@@ -1,4 +1,4 @@
-//connection_oriented_server.c: After establishing a connection and receiving the string sent by the client, send back an ACK string to the client.
+//server.c: establish a connection with client.
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
@@ -62,20 +62,23 @@ int main()
         goto exit;
     }
 
-    while(1){
-        //accept
-        int len = sizeof(remote_addr);
-        newsock = accept(s, (struct sockaddr*)&remote_addr, &len);
-        if(newsock < 0){
-            printf_error();
-            goto exit;
-        }
-        fprintf(stdout, "Acccept connection: Remote port= %d, ip addr = %s\n", ntohs(remote_addr.sin_port), inet_ntoa(remote_addr.sin_addr));
+    //accept
+    int len = sizeof(remote_addr);
+    newsock = accept(s, (struct sockaddr*)&remote_addr, &len);
+    if(newsock < 0){
+        printf_error();
+        goto exit;
+    }
+    fprintf(stdout, "Acccept connection: Remote port= %d, ip addr = %s\n", ntohs(remote_addr.sin_port), inet_ntoa(remote_addr.sin_addr));
 
+    while(1){
         //recv
         retval = recv(newsock, recvbuf, sizeof(recvbuf), 0);
-        if(retval <= 0){
-            printf_error();
+        if(retval == 0){
+            fprintf(stderr, "remote peer close the connection\n");
+            goto exit;
+        }else if(retval == -1){
+            fprintf(stderr, "remote peer reset the connection\n");
             goto exit;
         }
         fprintf(stdout, "Reveive data:%s, length:%d\n", recvbuf, retval);
@@ -84,18 +87,14 @@ int main()
         memset(sendbuf, '\0', sizeof(sendbuf));
         strcpy(sendbuf, "ACK");
         retval = send(newsock, sendbuf, strlen(sendbuf)+1, 0);
-        if(retval <= 0){
-            printf_error();
+        if(retval == 0){
+            fprintf(stderr, "remote peer close the connection\n");
+            goto exit;
+        }else if(retval == -1){
+            fprintf(stderr, "remote peer reset the connection\n");
             goto exit;
         }
         fprintf(stdout, "Send data:%s, length:%d\n", sendbuf, retval);
-
-        //close socket
-        #ifdef _WIN32
-            closesocket(newsock);
-        #elif __linux__
-            close(newsock);
-        #endif
     }
 
     exit:{

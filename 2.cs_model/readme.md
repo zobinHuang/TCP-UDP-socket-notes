@@ -122,9 +122,12 @@ int send(int sockfd, const char *buf, int len, int flags);
     * If the kernel has not started sending the data in the sending buffer of **sockfd** or there is no data in the buffer, then it will compare the remaining space of **sockfd**'s send buffer with **len**. If **len** is larger than the size of the remaining space, then it will wait for the kernel to send the data in the buffer of **sockfd**. Otherwise, it will copy the data in **buf** to the send buffer of **sockfd**.
 * Return value:
     * If it successfully copies data from **buf** to the send buffer of **sockfd**, it will return the actual number of bytes it copied.
-    * If an error happened during copying data, it will return *SOCKET_ERROR*.
-    * If the network was disconnected while waiting for the kernel to send data, 
-      * under Windows: it will return 0.
+    * If an error happened during copying data, it will return -1. \
+    Under Windows, you can use WSAGetLastError() to get the error code. \
+    Under Linux, you can get the error code via errno.
+    * If the network was disconnected while waiting for the kernel to send data:    
+        * it will return 0 if the peer invoked *close() / closesocket()* to close the connection.
+        * it will return -1 if the peer directly killed the process.
 ```C
 int recv( SOCKET sockfd, char *buf, int len, int flags);
 ```
@@ -139,8 +142,12 @@ int recv( SOCKET sockfd, char *buf, int len, int flags);
     * After the kernel received the data, then it will copy the data in the receive buffer of **sockfd** to **buf** (note that the data received by the kernel may be larger than the length of **buf** (**len**), so in this case, it is necessary to call the recv() for several times to copy all the data in the receive buffer of **sockfd**.
 * Return value:
     * If it successfully copies data from the send buffer of **sockfd** to **buf**, it will return the actual number of bytes it copied.
-    * If an error happened during copying data, it will return *SOCKET_ERROR*.
-    * If the network was disconnected while waiting for the kernel to receiving data, it will return 0.
+    * If an error happened during copying data, it will return -1. \
+    Under Windows, you can use WSAGetLastError() to get the error code. \
+    Under Linux, you can get the error code via errno.
+    * If the network was disconnected while waiting for the kernel to receive data:    
+        * it will return 0 if the peer invoked *close() / closesocket()* to close the connection.
+        * it will return -1 if the peer directly killed the process.
 
 ### 4.2 Connectionless-oriented commonly used:
 #### 4.2.1 Server & Client Common:
@@ -156,7 +163,7 @@ int sendto (int sockfd, const void *buf, int len, unsigned int flags, const stru
     * **addrlen:** length of **dest_addr**
 * Return value:
     * If it successfully copies data from **buf** to the send buffer of **sockfd**, it will return the actual number of bytes it copied.
-    * If an error happened during copying data, it will return -1. 
+    * If an error happened during copying data, it will return -1. \
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
 ```C
@@ -171,7 +178,7 @@ int recvfrom(int sockfd, void *buf, int len, unsigned int flags, struct sockaddr
   * ***addrlen:** NOTE! This is the ***address*** of the int which represents the length of **sour_addr**
 * Return value:
     * If it successfully receive data and store in **buf** from the receive buffer of **sockfd**, it will return the actual number of bytes it copied.
-    * If an error happened during copying data, it will return -1.
+    * If an error happened during copying data, it will return -1. \
     Under Windows, you can use WSAGetLastError() to get the error code. \
     Under Linux, you can get the error code via errno.
 

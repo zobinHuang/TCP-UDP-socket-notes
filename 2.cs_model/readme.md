@@ -124,9 +124,7 @@ int send(int sockfd, const char *buf, int len, int flags);
     * If it successfully copies data from **buf** to the send buffer of **sockfd**, it will return the actual number of bytes it copied.
     * If an error happened during copying data, it will return *SOCKET_ERROR*.
     * If the network was disconnected while waiting for the kernel to send data, 
-      * under Windows: it will return *SOCKET_ERROR*.
-      * under Linux: The process will receives a *SIGPIPE* signal, and the default processing of this signal is process termination.
-  
+      * under Windows: it will return 0.
 ```C
 int recv( SOCKET sockfd, char *buf, int len, int flags);
 ```
@@ -142,9 +140,8 @@ int recv( SOCKET sockfd, char *buf, int len, int flags);
 * Return value:
     * If it successfully copies data from the send buffer of **sockfd** to **buf**, it will return the actual number of bytes it copied.
     * If an error happened during copying data, it will return *SOCKET_ERROR*.
-    * If the network was disconnected while waiting for the kernel to receiving data, 
-      * under Windows: it will return *SOCKET_ERROR*.
-      * under Linux: The process will receives a *SIGPIPE* signal, and the default processing of this signal is process termination.
+    * If the network was disconnected while waiting for the kernel to receiving data, it will return 0.
+
 ### 4.2 Connectionless-oriented commonly used:
 #### 4.2.1 Server & Client Common:
 ```C
